@@ -5,7 +5,7 @@ from flask_restful import Resource, Api
 import requests
 from datetime import datetime, timedelta
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 api = Api(app)
 
 
