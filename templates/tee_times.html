@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tee Times</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        li strong {
+            display: inline-block;
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tee Times</h1>
+    {% if tee_times %}
+        <ul>
+        {% for tee_time in tee_times %}
+            <li>
+                <strong>Date:</strong> {{ tee_time.date }}<br>
+                <strong>Time:</strong> {{ tee_time.time }}<br>
+                <strong>Course:</strong> {{ tee_time.course }}<br>
+                <strong>Golf Club ID:</strong> {{ tee_time.golfClubId }}<br>
+                <strong>Single Allowed:</strong> {{ tee_time.singleAllowed }}<br>
+                <strong>Spots Available:</strong> {{ tee_time.spotsAvailable }}<br>
+                <strong>Link:</strong>  <a href="{{ tee_time.link }}">Book</a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tee times available.</p>
+    {% endif %}
+</body>
+</html>
