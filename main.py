@@ -4,7 +4,6 @@ from flask import Flask, jsonify, render_template, make_response
 from flask_restful import Resource, Api
 import requests
 from datetime import datetime, timedelta
-from collections import OrderedDict
 
 app = Flask(__name__)
 api = Api(app)
@@ -41,8 +40,6 @@ class TeeTimes(Resource):
             'sec-fetch-site': 'same-site',
             'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
         }
-
-        result = OrderedDict()
 
         # Start from tomorrow
         start_date = datetime.now() + timedelta(days=1)
@@ -81,9 +78,6 @@ class TeeTimes(Resource):
                             'golfClubId': item['golfClubId'],
                             'link': BOOK_URL
                         })
-
-            if filtered_tee_times:
-                result[date_str] = filtered_tee_times
 
         return jsonify(filtered_tee_times)
 
