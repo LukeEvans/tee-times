@@ -66,8 +66,8 @@ class TeeTimes(Resource):
                     if (
                             item['allowSinglesToBookOnline'] and
                             item['holesRequirementTypeId'] == 1 and
-                            item['teeTime'] <= MAX_TEE_TIME and
-                            item['golfClubId'] in GOLF_CLUB_IDS
+                            item['teeTime'] <= MAX_TEE_TIME
+                            # item['golfClubId'] in GOLF_CLUB_IDS
                     ):
                         filtered_tee_times.append({
                             'date': formatted_date,
