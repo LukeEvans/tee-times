@@ -42,7 +42,7 @@ class TeeTimes(Resource):
         }
 
         # Start from tomorrow
-        start_date = datetime.now() + timedelta(days=1)
+        start_date = datetime.now()
         filtered_tee_times = []
 
         for i in range(DAYS_TO_SEARCH):
