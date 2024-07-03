@@ -11,6 +11,8 @@ api = Api(app)
 
 class COURSES(Enum):
     WILLIS_CASE = 3833
+    KENNEDY = 3629
+    WELLSHIRE = 3831
 
 
 # Constants

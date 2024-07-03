@@ -6,6 +6,9 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
         }
         h1 {
             text-align: center;
@@ -29,27 +32,122 @@
         .single-not-allowed {
             background-color: #f0d8c7;
         }
+        .toggle-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .toggle {
+            display: flex;
+            align-items: center;
+        }
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+            cursor: pointer;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        .toggle-label {
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
     <h1>Tee Times</h1>
+    <div class="toggle-container">
+        <label class="toggle">
+            <input type="checkbox" id="toggle-willis-case" checked>
+            <span class="slider"></span>
+            <span class="toggle-label">Willis Case</span>
+        </label>
+        <label class="toggle">
+            <input type="checkbox" id="toggle-kennedy">
+            <span class="slider"></span>
+            <span class="toggle-label">Kennedy</span>
+        </label>
+        <label class="toggle">
+            <input type="checkbox" id="toggle-wellshire">
+            <span class="slider"></span>
+            <span class="toggle-label">Wellshire</span>
+        </label>
+    </div>
     {% if tee_times %}
-        <ul>
+        <ul id="tee-times-list">
         {% for tee_time in tee_times %}
-            <li class="{% if tee_time.singleAllowed %}single-allowed{% else %}single-not-allowed{% endif %}">
+            <li class="{% if tee_time.singleAllowed %}single-allowed{% else %}single-not-allowed{% endif %}" data-golf-club-id="{{ tee_time.golfClubId }}">
                 <strong>Date:</strong> {{ tee_time.date }}<br>
                 <strong>Time:</strong> {{ tee_time.time }}<br>
                 <strong>Course:</strong> {{ tee_time.course }}<br>
                 <strong>Golf Club ID:</strong> {{ tee_time.golfClubId }}<br>
                 <strong>Single Allowed:</strong> {{ tee_time.singleAllowed }}<br>
                 <strong>Spots Available:</strong> {{ tee_time.spotsAvailable }}<br>
-                <strong>Link:</strong>  <a href="{{ tee_time.link }}" target="_blank">Book</a>
-
+                <strong>Link:</strong> <a href="{{ tee_time.link }}" target="_blank">Book</a>
             </li>
         {% endfor %}
         </ul>
     {% else %}
         <p>No tee times available.</p>
     {% endif %}
+
+    <script>
+        const toggleWillisCase = document.getElementById('toggle-willis-case');
+        const toggleKennedy = document.getElementById('toggle-kennedy');
+        const toggleWellshire = document.getElementById('toggle-wellshire');
+        const teeTimesList = document.getElementById('tee-times-list');
+
+        function updateTeeTimesList() {
+            const willisCase = toggleWillisCase.checked;
+            const kennedy = toggleKennedy.checked;
+            const wellshire = toggleWellshire.checked;
+
+            const teeTimes = teeTimesList.getElementsByTagName('li');
+            for (let teeTime of teeTimes) {
+                const golfClubId = teeTime.dataset.golfClubId;
+                if (
+                    (willisCase && golfClubId === '3833') ||
+                    (kennedy && golfClubId === '3629') ||
+                    (wellshire && golfClubId === '3831')
+                ) {
+                    teeTime.style.display = '';
+                } else {
+                    teeTime.style.display = 'none';
+                }
+            }
+        }
+
+        toggleWillisCase.addEventListener('change', updateTeeTimesList);
+        toggleKennedy.addEventListener('change', updateTeeTimesList);
+        toggleWellshire.addEventListener('change', updateTeeTimesList);
+
+        // Initial update
+        updateTeeTimesList();
+    </script>
 </body>
 </html>
